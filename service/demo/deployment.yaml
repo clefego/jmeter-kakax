@@ -1,0 +1,49 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: pythonapp
+  labels:
+    app: python
+spec:
+  selector:
+    app: python
+  ports:
+    - protocol: TCP
+      port: 8000
+      # nodePort: 30085
+      targetPort: 8000
+  # type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pythonapp
+  labels:
+    app: python
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python
+  template:
+    metadata:
+      labels:
+        app: python
+      # annotations:
+      #   dapr.io/enabled: "true"
+      #   dapr.io/app-id: "pythonapp"
+      #   dapr.io/app-port: "8000"
+    spec:
+      containers:
+        - name: python
+          image: mx2542/kakax-demo
+          command:
+            - "uvicorn"
+          args:
+            - "main:app"
+            - "--reload"
+          ports:
+            - containerPort: 8000
+              hostPort: 8000
+          imagePullPolicy: Always

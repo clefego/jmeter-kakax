@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+install = "*"
+uvicorn = "*"
+fastapi = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+
+[scripts]
+docker = "docker buildx build --platform linux/amd64 -t mx2542/kakax-demo . --push"

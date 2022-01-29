@@ -1,0 +1,97 @@
+# jmeter master
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: jmeter-master
+  labels:
+    app: jmeter-master
+spec:
+  selector:
+    app: jmeter-master
+  ports:
+    - protocol: TCP
+      name: metrics
+      port: 80
+      # nodePort: 30082
+      targetPort: 9270
+    # - protocol: TCP
+    #   name: http
+    #   port: 8000
+    #   nodePort: 30083
+    #   targetPort: 8000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-master
+  labels:
+    app: jmeter-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jmeter-master
+  template:
+    metadata:
+      labels:
+        app: jmeter-master
+    spec:
+      containers:
+        - name: jmeter-runner
+          image: mx2542/kakax-jmeter
+          command: ["sleep"]
+          args: ["infinity"]
+          ports:
+            - containerPort: 9270
+          imagePullPolicy: Always
+        # - name: jmeter-controler
+        #   image: mx2542/kakax-demo
+        #   command:
+        #     - "uvicorn"
+        #   args:
+        #     - "main:app"
+        #     - "--reload"
+        #   ports:
+        #     - containerPort: 8000
+        #   imagePullPolicy: Always
+
+# jmeter slave 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jmeter-slave
+  labels:
+    app: jmeter-slave
+spec:
+  ports:
+  - port: 80
+    targetPort: 1099
+  clusterIP: None
+  selector:
+    app: jmeter-slave
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jmeter-slave
+spec:
+  selector:
+    matchLabels:
+      app: jmeter-slave 
+  serviceName: "jmeter-slave"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: jmeter-slave
+    spec:
+      containers:
+      - name: jmeter-slave
+        image: mx2542/kakax-jmeter
+        command: ["./apache-jmeter-5.4.3/bin/jmeter-server"]
+        ports:
+        - containerPort: 1099
+
