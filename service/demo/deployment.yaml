@@ -8,11 +8,13 @@ spec:
   selector:
     app: python
   ports:
-    - protocol: TCP
-      port: 8000
+    # - protocol: TCP
+    - port: 8000
       # nodePort: 30085
       targetPort: 8000
-  # type: NodePort
+  # clusterIP: None
+    
+  type: NodePort
 
 ---
 apiVersion: apps/v1
@@ -45,5 +47,4 @@ spec:
             - "--reload"
           ports:
             - containerPort: 8000
-              hostPort: 8000
           imagePullPolicy: Always

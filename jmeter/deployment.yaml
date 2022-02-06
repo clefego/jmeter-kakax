@@ -37,9 +37,12 @@ spec:
     metadata:
       labels:
         app: jmeter-master
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "jmeter-master"
     spec:
       containers:
-        - name: jmeter-runner
+        - name: jmeterd
           image: mx2542/kakax-jmeter
           command: ["sleep"]
           args: ["infinity"]
@@ -87,9 +90,12 @@ spec:
     metadata:
       labels:
         app: jmeter-slave
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "jmeter-slave"
     spec:
       containers:
-      - name: jmeter-slave
+      - name: jmeterd
         image: mx2542/kakax-jmeter
         command: ["./apache-jmeter-5.4.3/bin/jmeter-server"]
         ports:
