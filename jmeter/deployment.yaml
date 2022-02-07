@@ -15,11 +15,6 @@ spec:
       port: 80
       # nodePort: 30082
       targetPort: 9270
-    # - protocol: TCP
-    #   name: http
-    #   port: 8000
-    #   nodePort: 30083
-    #   targetPort: 8000
   type: NodePort
 ---
 apiVersion: apps/v1
@@ -42,23 +37,13 @@ spec:
         dapr.io/app-id: "jmeter-master"
     spec:
       containers:
-        - name: jmeterd
+        - name: jmeter-master
           image: mx2542/kakax-jmeter
           command: ["sleep"]
           args: ["infinity"]
           ports:
             - containerPort: 9270
           imagePullPolicy: Always
-        # - name: jmeter-controler
-        #   image: mx2542/kakax-demo
-        #   command:
-        #     - "uvicorn"
-        #   args:
-        #     - "main:app"
-        #     - "--reload"
-        #   ports:
-        #     - containerPort: 8000
-        #   imagePullPolicy: Always
 
 # jmeter slave 
 ---
@@ -95,7 +80,7 @@ spec:
         dapr.io/app-id: "jmeter-slave"
     spec:
       containers:
-      - name: jmeterd
+      - name: jmeter-slave
         image: mx2542/kakax-jmeter
         command: ["./apache-jmeter-5.4.3/bin/jmeter-server"]
         ports:
