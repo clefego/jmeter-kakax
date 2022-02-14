@@ -29,7 +29,7 @@ echo "Password: $(kubectl get secret grafana-admin --namespace default -o jsonpa
 
 
 # .5 grafana
-admin / oAYyqTS368
+#admin / oAYyqTS368
 
 
 
