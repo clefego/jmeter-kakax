@@ -1,25 +1,38 @@
+# 创建集群
+echo "------------------- 创建 k8s 集群 --------------------"
+kind create cluster --config kind.yaml
+
+
+# 安装被测 app
+echo "------------------- 安装 pythonapp --------------------"
+kubectl apply -f service/demo/deployment.yaml
+
+# 安装jmeter
+echo "------------------- 安装 jmeter --------------------"
+kubectl apply -f jmeter/deployment.yaml
+
+
+# 安装 prometheus
+echo "------------------- 安装 prometheus --------------------"
+# helm install prometheus prometheus-community/prometheus
+helm install prometheus -f deployment/values-prometheus.yaml prometheus-community/prometheus
+
+
+# 安装 grafana
+echo "------------------- 安装 grafana --------------------"
 helm install grafana bitnami/grafana
-helm install prometheus prometheus-community/prometheus
 
-helm install prometheus -f prometheus-community/prometheus
-
-
-
-helm install kafka -f values.yaml bitnami/kafka
+echo "User: admin"
+echo "Password: $(kubectl get secret grafana-admin --namespace default -o jsonpath="{.data.GF_SECURITY_ADMIN_PASSWORD}" | base64 --decode)"
 
 
 
+
+# .5 grafana
 admin / oAYyqTS368
-podName=k get pod | grep -Eo 'jmeter-master-.*\z'
-
-
-kubectl run my-test-kafka-client --restart='Never' --image docker.io/bitnami/kafka:2.8.1-debian-10-r31 --namespace keel-system --command -- sleep infinity
 
 
 
-kafka-topics.sh --create --partitions 20 --replication-factor 2 --topic test-1 --bootstrap-server kafka.keel-system.svc.cluster.local:9092
-
-
-kafka-run-class.sh kafka.tools.GetOffsetShell --topic test-1 --time -1 --broker-list kafka.keel-system.svc.cluster.local:9092 --partitions 0
-
-kafka-producer-perf-test.sh --topic test-1 --throughput -1 --num-records 30000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka.keel-system.svc.cluster.local:9092
+# 本地  grafana
+# admin / x8QIbrWwWQ
+# http://127.0.0.1:8080/?orgId=1
