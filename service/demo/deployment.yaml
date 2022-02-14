@@ -8,13 +8,13 @@ spec:
   selector:
     app: python
   ports:
-    # - protocol: TCP
-    - port: 8000
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
       # nodePort: 30085
-      targetPort: 8000
-  # clusterIP: None
+  clusterIP: None
+  # type: NodePort
     
-  type: NodePort
 
 ---
 apiVersion: apps/v1
@@ -38,13 +38,15 @@ spec:
       #   dapr.io/app-port: "8000"
     spec:
       containers:
-        - name: python
-          image: mx2542/kakax-demo
-          command:
-            - "uvicorn"
-          args:
-            - "main:app"
-            - "--reload"
-          ports:
-            - containerPort: 8000
-          imagePullPolicy: Always
+      - name: python
+        image: mx2542/kakax-demo
+        command:
+          - "uvicorn"
+        args:
+          - "main:app"
+          - "--reload"
+          - "--host=0.0.0.0"
+          - "--port=8000"
+        ports:
+        - containerPort: 8000
+        imagePullPolicy: Always

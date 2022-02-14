@@ -12,10 +12,11 @@ spec:
   ports:
     - protocol: TCP
       name: metrics
-      port: 80
+      port: 9270
       # nodePort: 30082
       targetPort: 9270
-  type: NodePort
+  # type: NodePort
+  clusterIP: None
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,6 +36,7 @@ spec:
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "jmeter-master"
+        dapr.io/app-port: "9270"
     spec:
       containers:
         - name: jmeter-master
@@ -42,7 +44,7 @@ spec:
           command: ["sleep"]
           args: ["infinity"]
           ports:
-            - containerPort: 9270
+          - containerPort: 9270
           imagePullPolicy: Always
 
 # jmeter slave 
@@ -55,7 +57,7 @@ metadata:
     app: jmeter-slave
 spec:
   ports:
-  - port: 80
+  - port: 1099
     targetPort: 1099
   clusterIP: None
   selector:
@@ -78,6 +80,7 @@ spec:
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "jmeter-slave"
+        dapr.io/app-port: "1099"
     spec:
       containers:
       - name: jmeter-slave
