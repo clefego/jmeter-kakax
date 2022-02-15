@@ -33,3 +33,17 @@ kubectl exec -it jmeter-master-84db88ff8f-vw4h7 -- bash
 ```bash
 kubectl scale --replicas=4 deployment/jmeter-slave
 ```
+
+### dashboard
+
+```bash
+# grafana service port forward
+kubectl port-forward svc/grafana 8080:3000
+
+# get user/password 
+echo "User: admin"
+echo "Password: $(kubectl get secret grafana-admin --namespace default -o jsonpath="{.data.GF_SECURITY_ADMIN_PASSWORD}" | base64 --decode)"
+
+# open url
+open http://127.0.0.1:8080
+```
