@@ -1,5 +1,7 @@
 # kakax
 
+基于 K8s 的分布式压测平台
+
 ## required
 
 - [docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
