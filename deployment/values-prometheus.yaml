@@ -1389,7 +1389,7 @@ serverFiles:
       - /etc/config/alerts
 
     scrape_configs:
-      # 导入数据源
+      # import jmeter metrics
       - job_name: jmeter
         static_configs:
           - targets:
