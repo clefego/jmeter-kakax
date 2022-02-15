@@ -1,6 +1,6 @@
 # kakax
 
-基于 K8s 的分布式压测平台
+Distributed performance testing platform based on K8s
 
 ## required
 
