@@ -77,3 +77,4 @@ open http://127.0.0.1:8080
 - api service
 - web ui
 - nfs
+- fix influxdb connect confused
