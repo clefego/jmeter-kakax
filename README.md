@@ -24,7 +24,7 @@ kind create cluster --config kind.yaml
 
 ```bash
 cd kakax
-sh install.sh
+sh scripts/install.sh 
 ```
 
 ## quick start
@@ -62,7 +62,7 @@ echo "Password: $(kubectl get secret grafana-admin --namespace default -o jsonpa
 open http://127.0.0.1:8080
 ```
 
-## edit jmx
+## write jmx
 
 ### Prometheus Listener for Jmeter
 
