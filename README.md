@@ -53,3 +53,9 @@ echo "Password: $(kubectl get secret grafana-admin --namespace default -o jsonpa
 # open url
 open http://127.0.0.1:8080
 ```
+
+## todo
+
+- api service
+- web ui
+- nfs
