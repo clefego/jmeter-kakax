@@ -1,4 +1,4 @@
-# 安装被测 app
+# 安装 api service
 echo "------------------- 安装 api service --------------------"
 kubectl apply -f service/demo/deployment.yaml
 
