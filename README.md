@@ -14,6 +14,14 @@ Distributed performance testing platform based on K8s
 
 ## install
 
+### create cluster(kind)
+
+```bash
+kind create cluster --config kind.yaml
+```
+
+### install into cluster(kind)
+
 ```bash
 cd kakax
 sh install.sh
@@ -53,6 +61,16 @@ echo "Password: $(kubectl get secret grafana-admin --namespace default -o jsonpa
 # open url
 open http://127.0.0.1:8080
 ```
+
+## edit jmx
+
+### Prometheus Listener for Jmeter
+
+<https://github.com/johrstrom/jmeter-prometheus-plugin>
+
+### InfluxBd Listener for Jmeter
+
+<https://jmeter.apache.org/usermanual/realtime-results.html#influxdb_v2>
 
 ## todo
 
