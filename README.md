@@ -2,6 +2,10 @@
 
 Distributed performance testing platform based on K8s
 
+## architecture
+
+![img.png](docs/images/architecture.png)
+
 ## required
 
 - [docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
@@ -33,7 +37,7 @@ kubectl exec -it jmeter-master-84db88ff8f-vw4h7 -- bash
 ### scale slave pod
 
 ```bash
-kubectl scale --replicas=4 deployment/jmeter-slave
+kubectl scale --replicas=4 StatefulSet/jmeter-slave
 ```
 
 ### dashboard
