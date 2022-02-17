@@ -30,7 +30,7 @@ jobs:
 
       - name: Install
         run: |
-          sh install.sh
+          sh scripts/install.sh 
 
       # - name: Run e2e test
       #   run: |
@@ -40,4 +40,4 @@ jobs:
 
       - name: Uninstall
         run: |
-          sh uninstall.sh
+          sh scripts/uninstall.sh 
