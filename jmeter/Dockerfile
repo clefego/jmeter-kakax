@@ -3,7 +3,7 @@ FROM beevelop/java:v2021.06.2
 WORKDIR /
 
 COPY ./apache-jmeter-5.4.3 /apache-jmeter-5.4.3
-COPY ./*.jmx /
+COPY ./jmx/*.jmx /
 
 
 EXPOSE 1099
