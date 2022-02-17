@@ -4,7 +4,7 @@ Distributed performance testing platform based on K8s
 
 ## architecture
 
-![img.png](docs/images/architecture.png)
+![img.png](docs/images/architecture.jpg)
 
 ## required
 
