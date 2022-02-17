@@ -23,6 +23,7 @@ kind create cluster --config kind.yaml
 ### install into cluster(kind)
 
 ```bash
+git clone git@github.com:lunz1207/kakax.git
 cd kakax
 sh scripts/install.sh 
 ```
