@@ -28,7 +28,7 @@ jobs:
         with:
           config: .github/workflows/kind/kind.yaml
 
-      - name: install
+      - name: Install
         run: |
           sh install.sh
 
@@ -38,6 +38,6 @@ jobs:
       #     npm install
       #     npm run test
 
-      - name: uninstall
+      - name: Uninstall
         run: |
           sh uninstall.sh
