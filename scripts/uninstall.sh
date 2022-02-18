@@ -7,8 +7,8 @@ echo "------------------- 卸载 jmeter cluster --------------------"
 kubectl delete -f jmeter/deployment.yaml
 
 # 卸载 prometheus
-echo "------------------- 卸载 prometheus --------------------"
-helm uninstall prometheus
+#echo "------------------- 卸载 prometheus --------------------"
+#helm uninstall prometheus
 
 # 卸载 influxdb
 echo "------------------- 卸载 influxdb --------------------"

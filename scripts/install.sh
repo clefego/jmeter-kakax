@@ -7,12 +7,13 @@ echo "------------------- 安装 jmeter cluster --------------------"
 kubectl apply -f jmeter/deployment.yaml
 
 # 安装 prometheus
-echo "------------------- 安装 prometheus --------------------"
+#echo "------------------- 安装 prometheus --------------------"
 # helm install prometheus prometheus-community/prometheus
-helm install prometheus -f deployment/values-prometheus.yaml prometheus-community/prometheus
+#helm install prometheus -f deployment/values-prometheus.yaml prometheus-community/prometheus
 
 # 安装 influxdb
 echo "------------------- 安装 influxdb --------------------"
+helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install influxdb bitnami/influxdb
 
 # 安装 grafana
