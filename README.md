@@ -49,19 +49,37 @@ kubectl exec -it jmeter-master-84db88ff8f-vw4h7 -- bash
 kubectl scale --replicas=4 StatefulSet/jmeter-slave
 ```
 
+### data explore
+
+```bash
+# get user/password 
+echo "User: admin"
+echo "Password: $(kubectl get secret influxdb --namespace default -o jsonpath="{.data.admin-user-token}" | base64 --decode)"
+
+# grafana service port forward
+kubectl port-forward svc/influxdb 8086:8086
+
+# open url
+open http://127.0.0.1:8086
+```
+
+![img.png](docs/images/data-explore.jpg)
+
 ### dashboard
 
 ```bash
-# grafana service port forward
-kubectl port-forward svc/grafana 8080:3000
-
 # get user/password 
 echo "User: admin"
 echo "Password: $(kubectl get secret grafana-admin --namespace default -o jsonpath="{.data.GF_SECURITY_ADMIN_PASSWORD}" | base64 --decode)"
 
+# grafana service port forward
+kubectl port-forward svc/grafana 8080:3000
+
 # open url
 open http://127.0.0.1:8080
 ```
+
+[grafana_configuration](https://jmeter.apache.org/usermanual/realtime-results.html#grafana_configuration)
 
 ## write jmx
 
@@ -72,6 +90,10 @@ open http://127.0.0.1:8080
 ### InfluxBd Listener for Jmeter
 
 <https://jmeter.apache.org/usermanual/realtime-results.html#influxdb_v2>
+
+## ref
+
+[Metrics exposed](https://jmeter.apache.org/usermanual/realtime-results.html#metrics)
 
 ## todo
 
