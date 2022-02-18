@@ -17,6 +17,8 @@ Distributed performance testing platform based on K8s
 ### create Kubernetes with [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 
 ```bash
+git clone git@github.com:lunz1207/kakax.git
+cd kakax
 kind create cluster --config kind.yaml
 ```
 
