@@ -79,7 +79,7 @@ kubectl port-forward svc/grafana 8080:3000
 open http://127.0.0.1:8080
 ```
 
-[grafana_configuration](https://jmeter.apache.org/usermanual/realtime-results.html#grafana_configuration)
+[grafana configuration](https://jmeter.apache.org/usermanual/realtime-results.html#grafana_configuration)
 
 ## write jmx
 
