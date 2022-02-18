@@ -20,7 +20,7 @@ Distributed performance testing platform based on K8s
 kind create cluster --config kind.yaml
 ```
 
-### install into cluster(kind)
+### install into cluster
 
 ```bash
 git clone git@github.com:lunz1207/kakax.git
@@ -77,4 +77,5 @@ open http://127.0.0.1:8080
 
 - api service
 - web ui
+- CLI
 - nfs
