@@ -9,12 +9,12 @@ Distributed performance testing platform based on K8s
 ## required
 
 - [docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
-- k8s cluster
+- [Kubernetes](https://zh.wikipedia.org/zh-hans/Kubernetes)
 - [kubectl](https://www.kubernetes.org.cn/installkubectl)
 
 ## install
 
-### create a local cluster with [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
+### create Kubernetes with [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 
 ```bash
 kind create cluster --config kind.yaml
