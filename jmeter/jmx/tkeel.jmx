@@ -41,6 +41,11 @@
             <stringProp name="Argument.desc">实体id</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="emqHost" elementType="Argument">
+            <stringProp name="Argument.name">emqHost</stringProp>
+            <stringProp name="Argument.value">192.168.100.5</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
           <elementProp name="emqPort" elementType="Argument">
             <stringProp name="Argument.name">emqPort</stringProp>
             <stringProp name="Argument.value">32510</stringProp>
@@ -76,6 +81,11 @@
             <stringProp name="Argument.name">entityId</stringProp>
             <stringProp name="Argument.value">${__RandomString(16,ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,)}</stringProp>
             <stringProp name="Argument.desc">实体id</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="emqHost" elementType="Argument">
+            <stringProp name="Argument.name">emqHost</stringProp>
+            <stringProp name="Argument.value">emqx.keel-system.svc.cluster.local</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="emqPort" elementType="Argument">
@@ -127,7 +137,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="authorization" enabled="true">
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON提取器" enabled="true">
             <stringProp name="JSONPostProcessor.referenceNames">authorization</stringProp>
             <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.access_token</stringProp>
             <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
@@ -202,6 +212,14 @@
             <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.token</stringProp>
             <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
           </JSONPostProcessor>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell 后置处理程序" enabled="true">
+            <stringProp name="TestPlan.comments">把 authorization 设置成系统变量，供跨线程调用</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">${__setProperty(deviceToken,${deviceToken},)}</stringProp>
+          </BeanShellPostProcessor>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="create entity" enabled="true">
@@ -282,47 +300,17 @@
           </JSONPostProcessor>
           <hashTree/>
         </hashTree>
-        <net.xmeter.samplers.ConnectSampler guiclass="net.xmeter.gui.ConnectSamplerUI" testclass="net.xmeter.samplers.ConnectSampler" testname="MQTTConnect" enabled="true">
-          <stringProp name="mqtt.server">${baseUrl}</stringProp>
-          <stringProp name="mqtt.port">${emqPort}</stringProp>
-          <stringProp name="mqtt.version">3.1.1</stringProp>
-          <stringProp name="mqtt.conn_timeout">10</stringProp>
-          <stringProp name="mqtt.protocol">TCP</stringProp>
-          <stringProp name="mqtt.ws_path"></stringProp>
-          <boolProp name="mqtt.dual_ssl_authentication">false</boolProp>
-          <stringProp name="mqtt.clientcert_file_path"></stringProp>
-          <stringProp name="mqtt.clientcert_password"></stringProp>
-          <stringProp name="mqtt.user_name">${entityId}</stringProp>
-          <stringProp name="mqtt.password">${devicePort}</stringProp>
-          <stringProp name="mqtt.client_id_prefix">conn_</stringProp>
-          <boolProp name="mqtt.client_id_suffix">true</boolProp>
-          <stringProp name="mqtt.conn_keep_alive">300</stringProp>
-          <stringProp name="mqtt.conn_attampt_max">0</stringProp>
-          <stringProp name="mqtt.reconn_attampt_max">0</stringProp>
-          <stringProp name="mqtt.conn_clean_session">true</stringProp>
-        </net.xmeter.samplers.ConnectSampler>
-        <hashTree/>
-        <net.xmeter.samplers.PubSampler guiclass="net.xmeter.gui.PubSamplerUI" testclass="net.xmeter.samplers.PubSampler" testname="MQTTPubSampler" enabled="true">
-          <stringProp name="mqtt.topic_name">v1/devices/me/raw</stringProp>
-          <stringProp name="mqtt.qos_level">0</stringProp>
-          <boolProp name="mqtt.add_timestamp">true</boolProp>
-          <stringProp name="mqtt.message_type">String</stringProp>
-          <stringProp name="mqtt.message_type_fixed_length">1024</stringProp>
-          <stringProp name="mqtt.message_to_sent">{&quot;message&quot;: &quot;hello, tkeel&quot;,&quot;value&quot;:0}</stringProp>
-          <boolProp name="mqtt.retained_message">false</boolProp>
-        </net.xmeter.samplers.PubSampler>
-        <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="iothub" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="iothub" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <intProp name="LoopController.loops">-1</intProp>
+          <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">20000</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">100</stringProp>
-        <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">30</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
@@ -330,7 +318,7 @@
         <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="仅一次控制器" enabled="true"/>
         <hashTree>
           <net.xmeter.samplers.ConnectSampler guiclass="net.xmeter.gui.ConnectSamplerUI" testclass="net.xmeter.samplers.ConnectSampler" testname="MQTTConnect" enabled="true">
-            <stringProp name="mqtt.server">${baseUrl}</stringProp>
+            <stringProp name="mqtt.server">${emqHost}</stringProp>
             <stringProp name="mqtt.port">${emqPort}</stringProp>
             <stringProp name="mqtt.version">3.1.1</stringProp>
             <stringProp name="mqtt.conn_timeout">10</stringProp>
@@ -339,8 +327,8 @@
             <boolProp name="mqtt.dual_ssl_authentication">false</boolProp>
             <stringProp name="mqtt.clientcert_file_path"></stringProp>
             <stringProp name="mqtt.clientcert_password"></stringProp>
-            <stringProp name="mqtt.user_name">decice_123</stringProp>
-            <stringProp name="mqtt.password">ZDC1YZQZNTCTNDGWNS0ZMGE3LWJKMMMTNTKYZTGWNDK1ODE2</stringProp>
+            <stringProp name="mqtt.user_name">${entityId}</stringProp>
+            <stringProp name="mqtt.password">${__P(deviceToken)}</stringProp>
             <stringProp name="mqtt.client_id_prefix">conn_</stringProp>
             <boolProp name="mqtt.client_id_suffix">true</boolProp>
             <stringProp name="mqtt.conn_keep_alive">300</stringProp>
@@ -383,7 +371,7 @@
           <boolProp name="mqtt.add_timestamp">true</boolProp>
           <stringProp name="mqtt.message_type">String</stringProp>
           <stringProp name="mqtt.message_type_fixed_length">1024</stringProp>
-          <stringProp name="mqtt.message_to_sent">{&quot;message&quot;: &quot;hello, tkeel&quot;,&quot;value&quot;:0}</stringProp>
+          <stringProp name="mqtt.message_to_sent">{&quot;message&quot;: &quot;hello, worker&quot;,&quot;value&quot;:0}</stringProp>
           <boolProp name="mqtt.retained_message">false</boolProp>
         </net.xmeter.samplers.PubSampler>
         <hashTree>
@@ -508,7 +496,7 @@
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="push dapr pubsub" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="push dapr-pubsub" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -596,7 +584,7 @@
           </hashTree>
         </hashTree>
       </hashTree>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="report" enabled="false">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="report" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
