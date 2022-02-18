@@ -36,7 +36,6 @@ spec:
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "jmeter-master"
-        dapr.io/app-port: "9270"
     spec:
       containers:
         - name: jmeter-master
@@ -80,7 +79,6 @@ spec:
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "jmeter-slave"
-        dapr.io/app-port: "1099"
     spec:
       containers:
       - name: jmeter-slave
