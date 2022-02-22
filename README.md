@@ -93,7 +93,7 @@ open http://127.0.0.1:8080
 
 <https://jmeter.apache.org/usermanual/realtime-results.html#influxdb_v2>
 
-## ref
+## REF
 
 [Metrics exposed](https://jmeter.apache.org/usermanual/realtime-results.html#metrics)
 
