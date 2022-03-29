@@ -54,9 +54,10 @@ kubectl scale --replicas=4 StatefulSet/jmeter-slave
 ### data explore
 
 ```bash
-# get influxdb user/password 
+# get influxdb user/password and token
 echo "User: admin"
-echo "Password: $(kubectl get secret influxdb --namespace default -o jsonpath="{.data.admin-user-token}" | base64 --decode)"
+echo "Password: $(kubectl get secret influxdb --namespace default -o jsonpath="{.data.admin-user-password}" | base64 --decode)"
+echo "Token: $(kubectl get secret influxdb --namespace default -o jsonpath="{.data.admin-user-token}" | base64 --decode)"
 
 # influxdb service port forward
 kubectl port-forward svc/influxdb 8086:8086
