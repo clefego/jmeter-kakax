@@ -36,7 +36,7 @@ sh scripts/install.sh
 
 ```bash
 # get jmeter-master pod
-k get  pod | grep jmeter-master
+kubectl get  pod | grep jmeter-master
 
 # exec pod
 kubectl exec -it jmeter-master-84db88ff8f-vw4h7 -- bash
