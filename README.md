@@ -11,6 +11,7 @@ Distributed performance testing platform based on K8s
 - [docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
 - [Kubernetes](https://zh.wikipedia.org/zh-hans/Kubernetes)
 - [kubectl](https://www.kubernetes.org.cn/installkubectl)
+- [helm](https://helm.sh/zh/docs/intro/install/)
 
 ## install
 
