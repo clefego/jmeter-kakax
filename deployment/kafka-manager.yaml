@@ -42,7 +42,7 @@ spec:
           protocol: TCP
         env:
         - name: ZK_HOSTS
-          value: "kafka-zookeeper.keel-system:2181"
+          value: "tkeel-middleware-zookeeper.keel-system:2181"
         livenessProbe:
           httpGet:
             path: /api/health
