@@ -1,12 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: pythonapp
+  name: svc-demo
   labels:
-    app: python
+    app: demo
 spec:
   selector:
-    app: python
+    app: demo
   ports:
   - protocol: TCP
     port: 8000
@@ -20,26 +20,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pythonapp
+  name: svc-demo
   labels:
-    app: python
+    app: demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: python
+      app: demo
   template:
     metadata:
       labels:
-        app: python
-      # annotations:
-      #   dapr.io/enabled: "true"
-      #   dapr.io/app-id: "pythonapp"
-      #   dapr.io/app-port: "8000"
+        app: demo
     spec:
       containers:
-      - name: python
-        image: mx2542/kakax-demo
+      - name: demo
+        image: mx2542/kakax-demo:1.0
         command:
           - "uvicorn"
         args:

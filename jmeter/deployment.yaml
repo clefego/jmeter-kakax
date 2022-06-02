@@ -72,7 +72,7 @@ spec:
     spec:
       containers:
         - name: jmeter-master
-          image: mx2542/kakax-jmeter-demo:latest
+          image: mx2542/kakax-jmeter:latest
           command: ["sleep"]
           args: ["infinity"]
           ports:
@@ -125,7 +125,7 @@ spec:
     spec:
       containers:
         - name: jmeter-slave
-          image: mx2542/kakax-jmeter-demo:latest
+          image: mx2542/kakax-jmeter:latest
           command: ["./apache-jmeter-5.4.3/bin/jmeter-server"]
           ports:
             - containerPort: 1099
