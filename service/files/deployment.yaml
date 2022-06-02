@@ -1,0 +1,77 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: svc-files
+  labels:
+    app: files
+spec:
+  selector:
+    app: files
+  ports:
+  - protocol: TCP
+    name: files
+    port: 8001
+    targetPort: 8001
+  - protocol: TCP
+    name: droopy
+    port: 8000
+    targetPort: 8000
+      # nodePort: 30085
+  clusterIP: None
+  # type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: svc-files
+  labels:
+    app: files
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: files
+  template:
+    metadata:
+      labels:
+        app: files
+    spec:
+      containers:
+      - name: files
+        image: mx2542/kakax-files:1.0
+        command:
+          - "python"
+        args:
+          - "-m"
+          - "SimpleHTTPServer"
+          - "8001"
+        ports:
+        - containerPort: 8001
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /files
+            name: jmx
+      - name: droopy
+        image: mx2542/kakax-files:1.0
+        command:
+          - "python"
+        args:
+          - "/droopy.py"
+          - "-m"
+          - "Hi, it's me karory. You can send me a file."
+          - "-d"
+          - "/files"
+          - "-p"
+          - "/avatar.png"
+        ports:
+        - containerPort: 8000
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /files
+            name: jmx
+      volumes:
+        - name: jmx
+          persistentVolumeClaim:
+            claimName: jmx-pvc
+
