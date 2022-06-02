@@ -16,4 +16,6 @@ python_version = "3.9"
 
 [scripts]
 base-docker = "docker buildx build -f base.Dockerfile --platform linux/amd64 -t mx2542/kakax-jmeter-base:1.0 . --push"
-docker = "docker buildx build -f Dockerfile --platform linux/amd64 -t mx2542/kakax-jmeter-demo:latest . --push"
+jmeter-docker = "docker buildx build -f Dockerfile --platform linux/amd64 -t mx2542/kakax-jmeter:latest . --push"
+files-docker = "docker buildx build -f Dockerfile --platform linux/amd64 -t mx2542/kakax-files:1.0 . --push"
+demo-docker = "docker buildx build -f Dockerfile --platform linux/amd64 -t mx2542/kakax-demo:1.0 . --push"
