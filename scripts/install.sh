@@ -1,23 +1,29 @@
-# 安装 api service
-echo "------------------- 安装 api service --------------------"
+echo "------------------- install demo service --------------------"
 kubectl apply -f service/demo/deployment.yaml
 
-# 安装jmeter
-echo "------------------- 安装 jmeter cluster --------------------"
+echo "------------------- install jmeter cluster --------------------"
 kubectl apply -f jmeter/deployment.yaml
 
-# 安装 prometheus
-#echo "------------------- 安装 prometheus --------------------"
+echo "------------------- install files service --------------------"
+kubectl apply -f service/files/deployment.yaml
+
+
+# install prometheus
+#echo "------------------- install prometheus --------------------"
 # helm install prometheus prometheus-community/prometheus
 #helm install prometheus -f deployment/values-prometheus.yaml prometheus-community/prometheus
 
-# 安装 influxdb
-echo "------------------- 安装 influxdb --------------------"
+# install influxdb
+echo "------------------- install influxdb --------------------"
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install influxdb bitnami/influxdb
 
-# 安装 grafana
-echo "------------------- 安装 grafana --------------------"
+echo "User: admin"
+echo "Password: $(kubectl get secret influxdb --namespace default -o jsonpath="{.data.admin-user-password}" | base64 --decode)"
+echo "Token: $(kubectl get secret influxdb --namespace default -o jsonpath="{.data.admin-user-token}" | base64 --decode)"
+
+# install grafana
+echo "------------------- install grafana --------------------"
 helm install grafana bitnami/grafana
 
 echo "Grafana User: admin"
