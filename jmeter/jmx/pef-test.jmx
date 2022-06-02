@@ -46,7 +46,7 @@
         </HTTPSamplerProxy>
         <hashTree>
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="固定定时器" enabled="true">
-            <stringProp name="ConstantTimer.delay">500</stringProp>
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
           </ConstantTimer>
           <hashTree/>
         </hashTree>
@@ -175,7 +175,7 @@
             </elementProp>
             <elementProp name="influxdbToken" elementType="Argument">
               <stringProp name="Argument.name">influxdbToken</stringProp>
-              <stringProp name="Argument.value">76Ltz4wQIMjLBNvYIGPL</stringProp>
+              <stringProp name="Argument.value">${__env(INFLUXDB_TOKEN, , )} </stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="samplersList" elementType="Argument">

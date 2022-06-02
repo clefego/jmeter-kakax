@@ -13,9 +13,7 @@ spec:
     - protocol: TCP
       name: metrics
       port: 9270
-      # nodePort: 30082
       targetPort: 9270
-  # type: NodePort
   clusterIP: None
 ---
 apiVersion: apps/v1
@@ -39,12 +37,18 @@ spec:
     spec:
       containers:
         - name: jmeter-master
-          image: mx2542/kakax-jmeter-demo:1.0
+          image: mx2542/kakax-jmeter-demo:latest
           command: ["sleep"]
           args: ["infinity"]
           ports:
           - containerPort: 9270
           imagePullPolicy: Always
+          env:
+          - name: INFLUXDB_TOKEN
+            valueFrom:
+             secretKeyRef:
+              name: influxdb
+              key: admin-user-token
 
 # jmeter slave 
 ---
@@ -71,7 +75,7 @@ spec:
     matchLabels:
       app: jmeter-slave 
   serviceName: "jmeter-slave"
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
@@ -82,8 +86,14 @@ spec:
     spec:
       containers:
       - name: jmeter-slave
-        image: mx2542/kakax-jmeter-demo:1.0
+        image: mx2542/kakax-jmeter-demo:latest
         command: ["./apache-jmeter-5.4.3/bin/jmeter-server"]
         ports:
         - containerPort: 1099
-
+        imagePullPolicy: Always
+        env:
+          - name: INFLUXDB_TOKEN
+            valueFrom:
+             secretKeyRef:
+              name: influxdb
+              key: admin-user-token
