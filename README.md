@@ -37,6 +37,8 @@ sh scripts/install.sh
 
 ## quick start
 
+Take kind cluster as an example
+
 ## write jmx
 
 ### InfluxBd Listener for Jmeter
