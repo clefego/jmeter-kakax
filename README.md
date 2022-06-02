@@ -85,6 +85,8 @@ open http://127.0.0.1:8080
 
 [grafana configuration](https://jmeter.apache.org/usermanual/realtime-results.html#grafana_configuration)
 
+![img.png](docs/images/import-influxdb-to-grafana.png)
+
 ## write jmx
 
 ### Prometheus Listener for Jmeter
