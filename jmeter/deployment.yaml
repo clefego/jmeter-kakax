@@ -31,9 +31,6 @@ spec:
     metadata:
       labels:
         app: jmeter-master
-      annotations:
-        dapr.io/enabled: "true"
-        dapr.io/app-id: "jmeter-master"
     spec:
       containers:
         - name: jmeter-master
@@ -80,9 +77,6 @@ spec:
     metadata:
       labels:
         app: jmeter-slave
-      annotations:
-        dapr.io/enabled: "true"
-        dapr.io/app-id: "jmeter-slave"
     spec:
       containers:
       - name: jmeter-slave
