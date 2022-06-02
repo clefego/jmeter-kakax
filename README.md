@@ -95,7 +95,7 @@ open http://127.0.0.1:8086
 
 ![img.png](docs/images/data-explore.jpg)
 
-### view chart form grafana dashboard
+### view test data form grafana dashboard
 
 ```bash
 # get grafana user/password 
