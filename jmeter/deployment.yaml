@@ -1,3 +1,41 @@
+# pv
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: jmx-pv
+  namespace: default
+  labels:
+    app: jmx-pv
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/jmx
+
+# pvc
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jmx-pvc
+  namespace: default
+  labels:
+    app: jmx
+spec:
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  selector:
+    matchLabels:
+      app: jmx-pv
+
 # jmeter master
 ---
 kind: Service
@@ -38,16 +76,23 @@ spec:
           command: ["sleep"]
           args: ["infinity"]
           ports:
-          - containerPort: 9270
+            - containerPort: 9270
           imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /jmx
+              name: jmx
           env:
-          - name: INFLUXDB_TOKEN
-            valueFrom:
-             secretKeyRef:
-              name: influxdb
-              key: admin-user-token
+            - name: INFLUXDB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: influxdb
+                  key: admin-user-token
+      volumes:
+        - name: jmx
+          persistentVolumeClaim:
+            claimName: jmx-pvc
 
-# jmeter slave 
+# jmeter slave
 ---
 apiVersion: v1
 kind: Service
@@ -57,8 +102,8 @@ metadata:
     app: jmeter-slave
 spec:
   ports:
-  - port: 1099
-    targetPort: 1099
+    - port: 1099
+      targetPort: 1099
   clusterIP: None
   selector:
     app: jmeter-slave
@@ -70,7 +115,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: jmeter-slave 
+      app: jmeter-slave
   serviceName: "jmeter-slave"
   replicas: 2
   template:
@@ -79,15 +124,22 @@ spec:
         app: jmeter-slave
     spec:
       containers:
-      - name: jmeter-slave
-        image: mx2542/kakax-jmeter-demo:latest
-        command: ["./apache-jmeter-5.4.3/bin/jmeter-server"]
-        ports:
-        - containerPort: 1099
-        imagePullPolicy: Always
-        env:
-          - name: INFLUXDB_TOKEN
-            valueFrom:
-             secretKeyRef:
-              name: influxdb
-              key: admin-user-token
+        - name: jmeter-slave
+          image: mx2542/kakax-jmeter-demo:latest
+          command: ["./apache-jmeter-5.4.3/bin/jmeter-server"]
+          ports:
+            - containerPort: 1099
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /jmx
+              name: jmx
+          env:
+            - name: INFLUXDB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: influxdb
+                  key: admin-user-token
+      volumes:
+        - name: jmx
+          persistentVolumeClaim:
+            claimName: jmx-pvc
