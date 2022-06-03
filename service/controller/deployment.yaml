@@ -1,0 +1,48 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: svc-controller
+  labels:
+    app: controller
+spec:
+  selector:
+    app: controller
+  ports:
+  - protocol: TCP
+    port: 8003
+    targetPort: 8003
+      # nodePort: 30085
+  clusterIP: None
+  # type: NodePort
+    
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: svc-controller
+  labels:
+    app: controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: controller
+  template:
+    metadata:
+      labels:
+        app: controller
+    spec:
+      containers:
+      - name: controller
+        image: mx2542/kakax-controller:1.0
+        command:
+          - "uvicorn"
+        args:
+          - "main:app"
+          - "--reload"
+          - "--host=0.0.0.0"
+          - "--port=8003"
+        ports:
+        - containerPort: 8003
+        imagePullPolicy: Always
