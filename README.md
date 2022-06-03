@@ -22,7 +22,7 @@ if you have a k8s cluster, you can skip this step
 ```bash
 git clone git@github.com:lunz1207/kakax.git
 cd kakax
-kind create cluster --config kind.yaml
+kind create cluster
 ```
 
 ### deploy kakax in to cluster
