@@ -1,26 +1,43 @@
-from typing import Optional
+from pprint import pprint
 from fastapi import FastAPI
 from kubernetes import client, config
+
+from service.controller.job import *
 
 
 app = FastAPI()
 
+config.load_incluster_config()
+# config.load_kube_config()
+batch_v1 = client.BatchV1Api()
+
 
 @app.get("/")
-async def pod_list():
-
-    config.load_incluster_config()
-
-    v1 = client.CoreV1Api()
-    print("Listing pods with their IPs:")
-    ret = v1.list_pod_for_all_namespaces(watch=False)
-    for i in ret.items:
-        print("%s\t%s\t%s" %
-              (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
-
+async def Hello():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+@app.post("/jobs/{job_name}")
+async def job_create(job_name):
+    job = create_job_object(job_name)
+    resp = create_job(batch_v1, job)
+    return resp.status.to_dict()
+
+
+@app.get("/jobs/{job_name}")
+async def job_status(job_name):
+    resp = get_job_status(batch_v1, job_name)
+    return resp.status.to_dict()
+
+
+@app.patch("/jobs/{job_name}")
+async def job_update(job_name):
+    job = create_job_object(job_name)
+    resp = update_job(batch_v1, job, job_name)
+    return resp.status.to_dict()
+
+
+@app.delete("/jobs/{job_name}")
+async def job_delete(job_name):
+    resp = delete_job(batch_v1, job_name)
+    return resp.status
