@@ -1,24 +1,31 @@
-# uninstall api service
+echo "------------------- uninstall start --------------------"
+echo "------------------- uninstall influxdb --------------------"
+helm uninstall influxdb 
+
+echo "------------------- uninstall grafana --------------------"
+helm uninstall grafana 
+
 echo "------------------- uninstall api service --------------------"
 kubectl delete -f service/demo/deployment.yaml
 
-# uninstall jmeter
 echo "------------------- uninstall jmeter cluster --------------------"
 kubectl delete -f jmeter/deployment.yaml
 
-echo "------------------- install files service --------------------"
+echo "------------------- uninstall files service --------------------"
 kubectl delete -f service/files/deployment.yaml
 
-# uninstall prometheus
+echo "------------------- uninstall controller service --------------------"
+kubectl delete -f service/controller/deployment.yaml
+
 #echo "------------------- uninstall prometheus --------------------"
 #helm uninstall prometheus
 
-# uninstall influxdb
-echo "------------------- uninstall influxdb --------------------"
-helm uninstall influxdb 
-# uninstall grafana
-echo "------------------- uninstall grafana --------------------"
-helm uninstall grafana 
+
+echo "------------------- uninstall pvc --------------------"
+kubectl delete -f deployment/pvc.yaml
+
+echo "------------------- uninstall RBAC --------------------"
+kubectl delete -f deployment/RBAC.yaml
 
 echo "------------------- uninstall done --------------------"
 
