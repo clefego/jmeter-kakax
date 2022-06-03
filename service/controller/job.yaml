@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jmx
+spec:
+  template:
+    spec:
+      containers:
+        - name: jmeter
+          image: mx2542/kakax-jmeter:latest
+          command:
+            - "./apache-jmeter-5.4.3/bin/jmeter.sh"
+          args:
+            - "-n"
+            - "-t"
+            - "pef-test.jmx"
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /jmx
+              name: jmx
+          env:
+            - name: INFLUXDB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: influxdb
+                  key: admin-user-token
+      restartPolicy: Never
+      volumes:
+        - name: jmx
+          persistentVolumeClaim:
+            claimName: jmx-pvc
+  backoffLimit: 4
