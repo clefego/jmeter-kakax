@@ -5,8 +5,8 @@ WORKDIR /files
 COPY droopy.py /
 COPY avatar.png /
 
+EXPOSE 8000
 EXPOSE 8001
-EXPOSE 8002
 
 RUN apt update && apt install -y \
     curl \
