@@ -7,8 +7,8 @@ from job import *
 
 app = FastAPI()
 
-# config.load_incluster_config()
-config.load_kube_config()
+config.load_incluster_config()
+# config.load_kube_config()
 batch_v1 = client.BatchV1Api()
 
 
