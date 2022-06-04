@@ -2,7 +2,7 @@ from pprint import pprint
 from fastapi import FastAPI
 from kubernetes import client, config
 
-from service.controller.job import *
+from .job import *
 
 
 app = FastAPI()
