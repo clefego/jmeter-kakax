@@ -1,0 +1,37 @@
+# local pv
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: jmx-pv
+  namespace: default
+  labels:
+    app: jmx-pv
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/jmx
+
+# local pvc
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jmx-pvc
+  namespace: default
+  labels:
+    app: jmx
+spec:
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  selector:
+    matchLabels:
+      app: jmx-pv
