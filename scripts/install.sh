@@ -1,8 +1,12 @@
-echo "------------------- uninstall start --------------------"
-echo "------------------- install pvc --------------------"
-kubectl apply -f deployment/pvc.yaml
+echo "kakax will be install start..."
 
-echo "------------------- install RBAC --------------------"
+echo "install nfs-server-provisioner..."
+helm repo add nfs-ganesha-server-and-external-provisioner https://kubernetes-sigs.github.io/nfs-ganesha-server-and-external-provisioner/
+helm install svc nfs-ganesha-server-and-external-provisioner/nfs-server-provisioner -f deployment/nfs-values.yaml
+echo "install nfs-pvc..."
+kubectl apply -f deployment/nfs-pvc.yaml
+
+echo "install RBAC..."
 kubectl apply -f deployment/RBAC.yaml
 
 echo "------------------- install influxdb --------------------"

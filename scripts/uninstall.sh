@@ -5,6 +5,9 @@ helm uninstall influxdb
 echo "------------------- uninstall grafana --------------------"
 helm uninstall grafana 
 
+echo "------------------- uninstall nfs --------------------"
+helm uninstall svc 
+
 echo "------------------- uninstall api service --------------------"
 kubectl delete -f service/demo/deployment.yaml
 
@@ -17,12 +20,8 @@ kubectl delete -f service/files/deployment.yaml
 echo "------------------- uninstall controller service --------------------"
 kubectl delete -f service/controller/deployment.yaml
 
-#echo "------------------- uninstall prometheus --------------------"
-#helm uninstall prometheus
-
-
 echo "------------------- uninstall pvc --------------------"
-kubectl delete -f deployment/pvc.yaml
+# kubectl delete -f deployment/nfs-pvc.yaml
 
 echo "------------------- uninstall RBAC --------------------"
 kubectl delete -f deployment/RBAC.yaml

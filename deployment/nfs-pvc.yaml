@@ -1,4 +1,21 @@
-# nfs pvc
+# pv for nfs seivice
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: svc-nfs-pv
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /srv/volumes/data-nfs-server-provisioner-0
+  claimRef:
+    namespace: default
+    name: data-svc-nfs-server-provisioner-0
+
+# nfs pvc for jmeter
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
