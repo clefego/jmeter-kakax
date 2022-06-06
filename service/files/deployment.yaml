@@ -13,6 +13,10 @@ spec:
     port: 8001
     targetPort: 8001
   - protocol: TCP
+    name: fast-file
+    port: 8004
+    targetPort: 8004
+  - protocol: TCP
     name: droopy
     port: 8000
     targetPort: 8000
@@ -70,8 +74,22 @@ spec:
         volumeMounts:
           - mountPath: /files
             name: jmx
+      - name: fast-file
+        image: mx2542/kakax-fast-files:1.0
+        command:
+          - "uvicorn"
+        args:
+          - "main:app"
+          - "--reload"
+          - "--host=0.0.0.0"
+          - "--port=8004"
+        ports:
+        - containerPort: 8004
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /files/cache
+            name: jmx
       volumes:
         - name: jmx
           persistentVolumeClaim:
             claimName: jmx-nfs-pvc
-
