@@ -1,6 +1,6 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <UploadJmx msg="Welcome to Your Vue.js App"/>
+  <img alt="Vue logo" src="./assets/heart.jpg" height="98.1" width="120.8">
+  <UploadJmx msg="Welcome to kakax"/>
 </template>
 
 <script>
