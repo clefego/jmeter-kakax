@@ -13,7 +13,7 @@ def create_job_object(job_name):
     value_from = client.V1EnvVarSource(secret_key_ref=secret_key_ref)
 
     persistent_volume_claim = client.V1PersistentVolumeClaimVolumeSource(
-        claim_name='jmx-pvc')
+        claim_name='jmx-nfs-pvc')
 
     container = client.V1Container(
         name="jmeter",

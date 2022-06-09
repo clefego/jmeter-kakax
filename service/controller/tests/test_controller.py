@@ -1,12 +1,11 @@
 from pprint import pprint
-import uuid
 
 from requests_toolbelt.sessions import BaseUrlSession
 
 
 class TestController():
 
-    bs = BaseUrlSession(base_url='http://127.0.0.1:8000')
+    bs = BaseUrlSession(base_url='http://127.0.0.1:8001')
 
     def test_root(self):
         resp = self.bs.get('/')
